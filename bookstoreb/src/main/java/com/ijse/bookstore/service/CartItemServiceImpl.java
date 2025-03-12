@@ -1,15 +1,15 @@
 package com.ijse.bookstore.service;
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ijse.bookstore.entity.CartItem;
-import com.ijse.bookstore.entity.User;
+//import com.ijse.bookstore.entity.User;
 import com.ijse.bookstore.repository.CartItemRepository;
-import com.ijse.bookstore.repository.UserRepository;
+//import com.ijse.bookstore.repository.UserRepository;
 
 @Service
 public class CartItemServiceImpl implements CartItemService{
@@ -18,7 +18,7 @@ public class CartItemServiceImpl implements CartItemService{
     private CartItemRepository cartItemRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    //private UserRepository userRepository;
 
     @Override
     public CartItem createCartItem(CartItem cartItem){
