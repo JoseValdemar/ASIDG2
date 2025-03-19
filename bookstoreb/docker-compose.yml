@@ -1,0 +1,29 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookstore
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"  # Expose MariaDB to the host machine
+  app:
+    build: .
+    container_name: bookstore-app
+    depends_on:
+      - mariadb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/bookstore
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      app.jwtSecret: "B374A26A71490437A024E4FADD5B497FDFF1A8EA6FF12F6FB65AF2720B59CCF"
+      app.jwtExpiration: "86400000"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target/bookstore-0.0.1-SNAPSHOT.jar:/app/app.jar
+    command: ["java", "-jar", "/app/app.jar"]
+
+volumes:
+  mariadb_data:
