@@ -1,7 +1,7 @@
-package com.asid.apigateway.config;
+package com.asid.api_gateway.config;
 
-import com.asid.apigateway.handler.CartHandler;
-import com.asid.apigateway.handler.OrderHandler;
+import com.asid.api_gateway.handler.CartHandler;
+import com.asid.api_gateway.handler.OrderHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.*;
