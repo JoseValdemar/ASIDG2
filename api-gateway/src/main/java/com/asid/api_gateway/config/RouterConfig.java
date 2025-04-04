@@ -13,6 +13,6 @@ public class RouterConfig {
     public RouterFunction<ServerResponse> routes(CartHandler cartHandler, OrderHandler orderHandler) {
         return RouterFunctions
             .route(RequestPredicates.POST("/api/cart/add"), cartHandler::addBookToCart)
-            .andRoute(RequestPredicates.GET("/api/order/details/{orderId}"), orderHandler::getOrderDetails);
+            .andRoute(RequestPredicates.GET("/api/orderdetails/{orderId}"), orderHandler::getOrderDetails);
     }
 }

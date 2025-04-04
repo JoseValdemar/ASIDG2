@@ -25,19 +25,19 @@ public class OrderHandler {
 
         Mono<JsonNode> orderMono = webClientBuilder.build()
             .get()
-            .uri("http://localhost:8081/orders/" + orderId)
+            .uri("/orders/" + orderId)
             .retrieve()
             .bodyToMono(JsonNode.class);
 
         Mono<JsonNode> userMono = webClientBuilder.build()
             .get()
-            .uri("http://localhost:8081/users/1") // simulação
+            .uri("/users/1") // simulação
             .retrieve()
             .bodyToMono(JsonNode.class);
 
         Mono<JsonNode> shippingMono = webClientBuilder.build()
             .get()
-            .uri("http://localhost:8081/shipping/" + orderId)
+            .uri("/shipping/" + orderId)
             .retrieve()
             .bodyToMono(JsonNode.class);
 
