@@ -33,4 +33,10 @@ public class OrderDetailsController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/orderdetails/{id}")
+    public ResponseEntity<OrderDetails> getOrderDetails(@PathVariable Long id) {
+    return orderDetailsService.getOrderDetailsById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+}
 }
