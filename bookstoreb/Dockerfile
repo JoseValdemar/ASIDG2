@@ -1,20 +1,12 @@
-# Usa uma imagem do OpenJDK 17
-FROM openjdk:17-jdk
-
-# Define o diretório de trabalho dentro do container
+# Etapa de build
+FROM maven:3.9.5-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean install -DskipTests
 
-# Copia TODOS os ficheiros dentro de `bookstoreb` para dentro do container
-COPY . /app
-
-# Dá permissão ao script `mvnw`
-RUN chmod +x mvnw
-
-# Compila o projeto com Maven
-RUN ./mvnw clean package -DskipTests
-
-# Expõe a porta 8080 para acesso externo
+# Etapa de execução
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Comando para rodar a aplicação
-CMD ["java", "-jar", "target/*.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

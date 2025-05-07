@@ -35,6 +35,4 @@ public class User {
     @JoinColumn(name = "shipping_information_id")
     private ShippingOrder shippingOrder;
 
-
-
 }

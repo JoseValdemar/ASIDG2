@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookstore
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - asid-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - asid-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - asid-network
+
+  bookstoreb:
+    build: ./bookstoreb
+    container_name: bookstore-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+      - kafka
+    networks:
+      - asid-network
+
+  order-history:
+    build: ./order-history-service-CQRS
+    container_name: order-history-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mariadb
+      - kafka
+    networks:
+      - asid-network
+
+volumes:
+  mariadb_data:
+
+networks:
+  asid-network:

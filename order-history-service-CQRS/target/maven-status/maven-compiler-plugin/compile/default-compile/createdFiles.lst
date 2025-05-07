@@ -1,0 +1,10 @@
+com\asid\orderhistory\entity\OrderHistory.class
+com\asid\orderhistory\OrderHistoryApplication.class
+com\asid\orderhistory\kafka\KafkaConsumerService.class
+com\asid\orderhistory\repository\OrderHistoryRepository.class
+com\asid\orderhistory\controller\OrderHistoryController.class
+com\asid\orderhistory\service\OrderHistoryServiceImpl.class
+com\asid\orderhistory\event\OrderCreatedEvent.class
+com\asid\orderhistory\event\OrderEventListener.class
+com\asid\orderhistory\config\KafkaConfig.class
+com\asid\orderhistory\service\OrderHistoryService.class
