@@ -1,13 +1,11 @@
 package com.ijse.orderms.order;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
+import com.ijse.orderms.dto.OrderDetailsDTO;
 import com.ijse.orderms.order.OrderDetails;
 
-@Service
+import java.util.Optional;
+
 public interface OrderDetailsService {
-    OrderDetails createOrderDetails(OrderDetails orderDetails);
+    OrderDetails createOrder(OrderDetailsDTO dto);
     Optional<OrderDetails> getOrderDetailsById(Long id);
 }

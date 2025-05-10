@@ -1,34 +1,28 @@
 package com.ijse.orderms.order;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "order_details")
 public class OrderDetails {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_detailsid")
     private Long id;
 
-    @Column
-    private int quantity;
-
-    @Column
-    private double subTotal;
+    private Long userId;
+    private String userEmail;
 
     private Long bookId;
+    private String bookTitle;
 
-    private Long shippingOrderId;
+    private Long shippingId; // <=== NOVO CAMPO
+    private String shippingAddress;
+    private LocalDateTime shippingDate;
 
-    private Long userId;
-
+    private int quantity;
+    private double subTotal;
 }
