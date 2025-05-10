@@ -151,6 +151,18 @@ services:
     ports:
       - "8086:8080"
 
+      # === ORCHESTRATOR SERVICE ===
+  orchestratorms:
+    build: ./order-orchestrator-service
+    container_name: orchestratorms
+    ports:
+      - "8087:8080"
+    depends_on:
+      - orderms
+      - bookms
+      - cartms
+      - shippingms
+
 volumes:
   userdb_data:
   bookdb_data:
