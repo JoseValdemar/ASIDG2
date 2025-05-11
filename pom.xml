@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.asid</groupId>
+    <artifactId>asidg2</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>ASIDG2 - Multi-Module Project</name>
+
+    <modules>
+        <module>api-gateway</module>
+        <module>ASIDMS</module>
+        <module>order-history-service-CQRS</module>
+        <module>order-orchestrator-service</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

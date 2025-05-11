@@ -1,20 +1,20 @@
-# Usa imagem com Java 17
-FROM openjdk:17-jdk
+# Usa uma imagem oficial do Java 17 como base
+FROM openjdk:17-jdk-slim
 
-# Diretório de trabalho
+# Define o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar tudo
+# Copia os ficheiros do projeto Maven
 COPY . .
 
-# Permitir execução do wrapper Maven
+# Dá permissões de execução ao wrapper do Maven
 RUN chmod +x mvnw
 
-# Compilar sem testes
+# Compila o projeto sem correr testes
 RUN ./mvnw clean package -DskipTests
 
-# Expor a porta
+# Expõe a porta 8080 (porta usada pela app Spring Boot)
 EXPOSE 8080
 
-# Executar com wildcard funcional
-CMD sh -c "java -jar target/*.jar"
+# Comando para correr o JAR gerado dinamicamente
+CMD ["sh", "-c", "java -jar target/*.jar"]

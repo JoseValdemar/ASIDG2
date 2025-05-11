@@ -6,8 +6,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
 @Table(name = "outbox_event")
+@Data
 public class OutboxEvent {
 
     @Id
@@ -18,9 +18,10 @@ public class OutboxEvent {
     private Long aggregateId;
     private String eventType;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String payload;
 
-    private Boolean sent = false;
+    private String status;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }

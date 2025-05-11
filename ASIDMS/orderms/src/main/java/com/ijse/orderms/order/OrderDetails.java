@@ -15,11 +15,11 @@ public class OrderDetails {
 
     private Long userId;
     private String userEmail;
-
     private Long bookId;
     private String bookTitle;
 
-    private Long shippingId; // <=== NOVO CAMPO
+    private Long shippingOrderId; // novo campo para associar ao envio
+
     private String shippingAddress;
     private LocalDateTime shippingDate;
 

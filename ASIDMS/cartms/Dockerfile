@@ -1,20 +1,14 @@
-# Usa imagem com Java 17
-FROM openjdk:17-jdk
+# Usa imagem base com Java 17
+FROM openjdk:17-jdk-slim
 
 # Diretório de trabalho
 WORKDIR /app
 
-# Copiar tudo
-COPY . .
+# Copia apenas o JAR já construído (assumindo que já o construíste com Maven fora do Docker)
+COPY target/*.jar app.jar
 
-# Permitir execução do wrapper Maven
-RUN chmod +x mvnw
-
-# Compilar sem testes
-RUN ./mvnw clean package -DskipTests
-
-# Expor a porta
+# Expor a porta 8080
 EXPOSE 8080
 
-# Executar com wildcard funcional
-CMD sh -c "java -jar target/*.jar"
+# Executar o serviço
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

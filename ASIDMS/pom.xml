@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.asid</groupId>
+        <artifactId>asidg2</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>com.asid</groupId>
+    <artifactId>asidms</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>ASIDMS Microservices</name>
+
+    <modules>
+        <module>userms</module>
+        <module>orderms</module>
+        <module>bookms</module>
+        <module>cartms</module>
+        <module>shippingms</module>
+    </modules>
+</project>
