@@ -10,6 +10,6 @@ import com.ijse.bookms.book.Category;
 
 
 @Repository
-public interface CategoryReposirory extends JpaRepository<Category,Long>{
+public interface CategoryRepository extends JpaRepository<Category,Long>{
     
 }
