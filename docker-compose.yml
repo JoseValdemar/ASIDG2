@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # === USER SERVICE ===
   userdb:
@@ -9,11 +11,12 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - userdb_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -proot || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   userms:
     build: ./ASIDMS/userms
@@ -38,11 +41,12 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - bookdb_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -proot || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   bookms:
     build: ./ASIDMS/bookms
@@ -67,11 +71,12 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - cartdb_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -proot || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   cartms:
     build: ./ASIDMS/cartms
@@ -96,11 +101,12 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - orderdb_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -proot || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   orderms:
     build: ./ASIDMS/orderms
@@ -125,11 +131,12 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - shippingdb_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -proot || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   shippingms:
     build: ./ASIDMS/shippingms
@@ -144,7 +151,7 @@ services:
     ports:
       - "8085:8080"
 
-  # === KAFKA ZOOKEEPER ===
+  # === KAFKA & ZOOKEEPER ===
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -165,7 +172,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  # === ORDER HISTORY SERVICE ===
+  # === ORDER HISTORY ===
   order-history:
     build: ./order-history-service-CQRS
     container_name: order-history-service
@@ -180,7 +187,7 @@ services:
     ports:
       - "8086:8080"
 
-  # === ORCHESTRATOR SERVICE ===
+  # === ORCHESTRATOR ===
   orchestratorms:
     build: ./order-orchestrator-service
     container_name: orchestratorms
