@@ -1,20 +1,7 @@
-# Usa uma imagem oficial do Java 17 como base
 FROM openjdk:17-jdk-slim
-
-# Define o diretório de trabalho no container
 WORKDIR /app
-
-# Copia os ficheiros do projeto Maven
-COPY . .
-
-# Dá permissões de execução ao wrapper do Maven
-RUN chmod +x mvnw
-
-# Compila o projeto sem correr testes
-RUN ./mvnw clean package -DskipTests
-
-# Expõe a porta 8080 (porta usada pela app Spring Boot)
-EXPOSE 8080
-
-# Comando para correr o JAR gerado dinamicamente
-CMD ["sh", "-c", "java -jar target/*.jar"]
+COPY target/*.jar app.jar
+COPY wait-for-it.sh .
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+RUN chmod +x wait-for-it.sh
+ENTRYPOINT ["sh", "./wait-for-it.sh", "orderms:3306", "java", "-jar", "app.jar"]

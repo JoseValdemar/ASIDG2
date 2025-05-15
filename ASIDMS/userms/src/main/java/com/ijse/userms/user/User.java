@@ -5,15 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name = "users")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
@@ -29,6 +26,10 @@ public class User {
     private String email;
 
     private Long shippingOrderId;
+
+    // ⚠️ Construtor vazio obrigatório para o JPA
+    public User() {
+    }
 
     public User(Long id, String fullname, String username, String email, Long shippingOrderId) {
         this.id = id;
@@ -77,7 +78,4 @@ public class User {
     public void setShippingOrderId(Long shippingOrderId) {
         this.shippingOrderId = shippingOrderId;
     }
-
-    
-    
 }

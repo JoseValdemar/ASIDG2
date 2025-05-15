@@ -28,4 +28,10 @@ public class ShippingOrderServiceImpl implements ShippingOrderService{
         
         return shippingOrderRepository.findAll();
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return shippingOrderRepository.existsById(id);
+    }
+
 }

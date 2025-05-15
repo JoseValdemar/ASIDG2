@@ -1,20 +1,7 @@
-# Usa imagem com Java 17
-FROM openjdk:17-jdk
-
-# Diretório de trabalho
+FROM openjdk:17-jdk-slim
 WORKDIR /app
-
-# Copiar tudo
-COPY . .
-
-# Permitir execução do wrapper Maven
-RUN chmod +x mvnw
-
-# Compilar sem testes
-RUN ./mvnw clean package -DskipTests
-
-# Expor a porta
-EXPOSE 8080
-
-# Executar com wildcard funcional
-CMD sh -c "java -jar target/*.jar"
+COPY target/*.jar app.jar
+COPY wait-for-it.sh .
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+RUN chmod +x wait-for-it.sh
+ENTRYPOINT ["sh", "./wait-for-it.sh", "shippingms:3306", "java", "-jar", "app.jar"]

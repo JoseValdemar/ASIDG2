@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS shipping_order (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  city VARCHAR(100) NOT NULL,
+  postal_code VARCHAR(20) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  shipping_date TIMESTAMP NOT NULL,
+  status VARCHAR(50) DEFAULT 'pendente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

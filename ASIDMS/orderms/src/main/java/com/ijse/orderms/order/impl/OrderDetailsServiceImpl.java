@@ -1,13 +1,12 @@
 package com.ijse.orderms.order.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ijse.orderms.client.BookClient;
+import com.ijse.orderms.client.ShippingClient;
+import com.ijse.orderms.client.UserClient;
 import com.ijse.orderms.dto.OrderDetailsDTO;
 import com.ijse.orderms.event.OrderCreatedEvent;
-import com.ijse.orderms.order.OrderDetails;
-import com.ijse.orderms.order.OrderDetailsRepository;
-import com.ijse.orderms.order.OrderDetailsService;
-import com.ijse.orderms.order.OutboxEvent;
-import com.ijse.orderms.order.OutboxEventRepository;
+import com.ijse.orderms.order.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +25,31 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private UserClient userClient;
+
+    @Autowired
+    private BookClient bookClient;
+
+    @Autowired
+    private ShippingClient shippingClient;
+
     @Override
     public OrderDetails createOrder(OrderDetailsDTO dto) {
-        // 1. Criar e guardar a encomenda
+        // 1. Verificações via REST
+        if (!userClient.userExists(dto.getUserId())) {
+            throw new IllegalArgumentException("Utilizador não encontrado com ID: " + dto.getUserId());
+        }
+
+        if (!bookClient.bookExists(dto.getBookId())) {
+            throw new IllegalArgumentException("Livro não encontrado com ID: " + dto.getBookId());
+        }
+
+        if (!shippingClient.shippingExists(dto.getShippingOrderId())) {
+            throw new IllegalArgumentException("Envio não encontrado com ID: " + dto.getShippingOrderId());
+        }
+
+        // 2. Criar e guardar a encomenda
         OrderDetails order = new OrderDetails();
         order.setUserId(dto.getUserId());
         order.setBookId(dto.getBookId());
@@ -38,7 +59,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
         OrderDetails saved = orderDetailsRepository.save(order);
 
-        // 2. Criar o evento
+        // 3. Criar o evento
         OrderCreatedEvent event = new OrderCreatedEvent();
         event.setOrderId(saved.getId());
         event.setUserId(saved.getUserId());
