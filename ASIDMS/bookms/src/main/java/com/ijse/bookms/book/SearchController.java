@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ijse.bookms.book.Book;
-import com.ijse.bookms.book.BookService;
-
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class SearchController {

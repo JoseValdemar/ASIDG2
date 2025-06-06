@@ -20,7 +20,7 @@ public class RestClientService {
 
     public Mono<String> getBookTitleById(Long bookId) {
         return bookClient.get()
-                .uri("/books/" + bookId)
+                .uri("/book/" + bookId) 
                 .retrieve()
                 .bodyToMono(String.class);
     }

@@ -9,6 +9,7 @@ import com.ijse.orderms.event.OrderCreatedEvent;
 import com.ijse.orderms.order.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Autowired
     private ShippingClient shippingClient;
 
+    @Transactional
     @Override
     public OrderDetails createOrder(OrderDetailsDTO dto) {
         // 1. Verificações via REST
@@ -55,20 +57,23 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         order.setBookId(dto.getBookId());
         order.setShippingOrderId(dto.getShippingOrderId());
         order.setQuantity(dto.getQuantity());
+        order.setUnitPrice(dto.getUnitPrice());
         order.setSubTotal(dto.getSubTotal());
+        order.setTotal(dto.getTotal());
+        order.setOrderDate(LocalDateTime.now());
 
         OrderDetails saved = orderDetailsRepository.save(order);
 
-        // 3. Criar o evento
-        OrderCreatedEvent event = new OrderCreatedEvent();
-        event.setOrderId(saved.getId());
-        event.setUserId(saved.getUserId());
-        event.setBookId(saved.getBookId());
-        event.setShippingId(saved.getShippingOrderId());
-        event.setOrderDate(LocalDateTime.now());
-        event.setTotalPrice(saved.getSubTotal());
-
+        // 3. Criar e guardar o evento na Outbox
         try {
+            OrderCreatedEvent event = new OrderCreatedEvent();
+            event.setOrderId(saved.getId());
+            event.setUserId(saved.getUserId());
+            event.setBookId(saved.getBookId());
+            event.setShippingId(saved.getShippingOrderId());
+            event.setOrderDate(saved.getOrderDate());
+            event.setTotalPrice(saved.getTotal());
+
             String payload = objectMapper.writeValueAsString(event);
 
             OutboxEvent outboxEvent = new OutboxEvent();
@@ -79,8 +84,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
             outboxEvent.setStatus("PENDING");
 
             outboxEventRepository.save(outboxEvent);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erro ao criar evento de encomenda: " + e.getMessage(), e);
         }
 
         return saved;

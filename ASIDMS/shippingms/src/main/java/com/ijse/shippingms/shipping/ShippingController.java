@@ -21,6 +21,14 @@ public class ShippingController {
         this.shippingService = shippingService;
     }
 
+    //Criar envio
+    @PostMapping
+    public ResponseEntity<ShippingOrder> createShipping(@RequestBody ShippingOrder shippingOrder) {
+        ShippingOrder created = shippingService.createShippingOrder(shippingOrder);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    }
+
+    //Obter envio por ID
     @GetMapping("/{id}")
     public ResponseEntity<ShippingOrder> getShippingById(@PathVariable Long id) {
         return shippingRepository.findById(id)
@@ -28,6 +36,7 @@ public class ShippingController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    //Verificar se envio existe
     @GetMapping("/exists/{id}")
     public ResponseEntity<Void> checkShippingExists(@PathVariable Long id) {
         if (shippingService.existsById(id)) {
@@ -37,10 +46,11 @@ public class ShippingController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<ShippingOrder> createShipping(@RequestBody ShippingOrder shippingOrder) {
-        ShippingOrder created = shippingService.createShippingOrder(shippingOrder);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    //Listar todos os envios
+    @GetMapping
+    public ResponseEntity<List<ShippingOrder>> getAllShippings() {
+        List<ShippingOrder> all = shippingRepository.findAll();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
-
 }
+

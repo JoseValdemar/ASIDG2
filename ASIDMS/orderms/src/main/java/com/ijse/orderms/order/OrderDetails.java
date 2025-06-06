@@ -18,11 +18,15 @@ public class OrderDetails {
     private Long bookId;
     private String bookTitle;
 
-    private Long shippingOrderId; // novo campo para associar ao envio
+    private Long shippingOrderId;
 
     private String shippingAddress;
     private LocalDateTime shippingDate;
 
     private int quantity;
+    private double unitPrice;
     private double subTotal;
+    private double total;
+
+    private LocalDateTime orderDate;
 }

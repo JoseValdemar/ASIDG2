@@ -5,7 +5,6 @@ C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\
 C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\dto\UserDTO.java
 C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\config\KafkaConfig.java
 C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\entity\OrderHistory.java
-C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\event\OrderEventListener.java
 C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\client\UserClient.java
 C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\service\OrderHistoryService.java
 C:\Users\josev\Desktop\ASIDG2\order-history-service-CQRS\src\main\java\com\asid\orderhistory\client\BookClient.java
