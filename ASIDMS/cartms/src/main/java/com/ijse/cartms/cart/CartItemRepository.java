@@ -21,4 +21,9 @@ public interface CartItemRepository extends JpaRepository<CartItem,Long> {
     void resetAutoIncrement();
 
     List<CartItem> findByUserId(Long userId);
+
+    @Transactional
+    @Modifying
+    void deleteByUserId(Long userId);
+
 }
