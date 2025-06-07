@@ -1,10 +1,18 @@
-package com.asid.bookms.saga;
+package com.ijse.bookms.saga;
 
+import com.ijse.bookms.book.Book;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ijse.bookms.book.BookService;
+import com.ijse.bookms.book.Book;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookEventConsumer {
+
+    @Autowired
+    private BookService bookService;
 
     private final BookEventProducer bookEventProducer;
 
@@ -16,10 +24,9 @@ public class BookEventConsumer {
     public void listen(String message) {
         System.out.println("📥 [BOOKMS] Evento recebido do orquestrador: " + message);
 
-        // Simular lógica de reserva de stock
-        boolean sucesso = simularReservaLivro();
+        // ⚠️ Simulação provisória — hardcoded bookId e quantidade
+        boolean sucesso = simularReservaLivro(1L, 1);
 
-        // Enviar resposta de volta ao orquestrador
         if (sucesso) {
             bookEventProducer.sendEvent("BOOK_RESERVED");
         } else {
@@ -27,8 +34,17 @@ public class BookEventConsumer {
         }
     }
 
-    private boolean simularReservaLivro() {
-        // Aqui podes integrar com o teu serviço real de reserva de stock
-        return true; // Simula sucesso
+    private boolean simularReservaLivro(Long bookId, int quantidade) {
+        try {
+            Book book = bookService.getBookById(bookId);
+            if (book != null && book.getStock() >= quantidade) {
+                book.setStock(book.getStock() - quantidade);
+                bookService.updateBook(book);
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

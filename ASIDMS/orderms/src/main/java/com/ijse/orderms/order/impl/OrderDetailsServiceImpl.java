@@ -96,4 +96,16 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     public Optional<OrderDetails> getOrderDetailsById(Long id) {
         return orderDetailsRepository.findById(id);
     }
+
+    @Override
+public void cancelLatestOrder() {
+    Optional<OrderDetails> lastOrder = orderDetailsRepository.findTopByOrderByIdDesc();
+    if (lastOrder.isPresent()) {
+        orderDetailsRepository.delete(lastOrder.get());
+        System.out.println(" Última encomenda cancelada com sucesso.");
+    } else {
+        System.out.println(" Nenhuma encomenda encontrada para cancelar.");
+    }
+}
+
 }

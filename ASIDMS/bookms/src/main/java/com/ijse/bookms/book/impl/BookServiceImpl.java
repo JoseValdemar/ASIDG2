@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import com.ijse.bookms.book.Book;
 import com.ijse.bookms.book.BookDTO;
@@ -11,7 +12,7 @@ import com.ijse.bookms.book.BookRepository;
 import com.ijse.bookms.book.BookService;
 import com.ijse.bookms.book.Author;
 import com.ijse.bookms.book.AuthorRepository;
-
+import com.ijse.bookms.dto.ItemDTO;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -72,4 +73,27 @@ public class BookServiceImpl implements BookService {
 
         return bookRepository.save(book);
     }
+   
+public void decreaseStock(List<ItemDTO> items) {
+    for (ItemDTO item : items) {
+    Optional<Book> opt = bookRepository.findById(item.getBookId());
+    if (opt.isPresent()) {
+        Book book = opt.get();
+        if (book.getStock() >= item.getQuantity()) {
+            book.setStock(book.getStock() - item.getQuantity());
+            bookRepository.save(book);
+        } else {
+            throw new IllegalStateException("Stock insuficiente para o livro ID: " + item.getBookId());
+        }
+    } else {
+        throw new IllegalStateException("Livro não encontrado ID: " + item.getBookId());
+    }
+    }
+}
+// na classe BookServiceImpl
+@Override
+public Book updateBook(Book book) {
+    return bookRepository.save(book);
+}
+
 }

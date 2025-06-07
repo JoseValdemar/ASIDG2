@@ -15,7 +15,7 @@ public class OrderSagaResponseListener {
 
     @KafkaListener(topics = "saga-orchestrator", groupId = "ordersaga-group")
     public void listen(String message) {
-        System.out.println("📥 [ORCHESTRATOR] Resposta recebida: " + message);
+        System.out.println(" [ORCHESTRATOR] Resposta recebida: " + message);
 
         switch (message) {
             case "BOOK_RESERVED" -> orchestrator.proceedToCart();
@@ -27,7 +27,7 @@ public class OrderSagaResponseListener {
             case "SHIPPING_CREATED" -> orchestrator.completeSaga();
             case "SHIPPING_FAILED" -> orchestrator.rollback("Erro no envio");
 
-            default -> System.out.println("⚠️ Evento desconhecido: " + message);
+            default -> System.out.println(" Evento desconhecido: " + message);
         }
     }
 }

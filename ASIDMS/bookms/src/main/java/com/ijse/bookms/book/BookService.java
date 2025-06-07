@@ -9,4 +9,6 @@ public interface BookService {
     List<Book> searchBooks(String query);
     Book patchBookQuantity(Long id, Book book);
     Book createBook(BookDTO bookDTO);
+    public Book updateBook(Book book);
+
 }

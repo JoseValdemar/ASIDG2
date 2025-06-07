@@ -12,7 +12,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Author {
-    
+    public String getAuthorName() {
+    return authorName;
+}
+
+public void setAuthorName(String authorName) {
+    this.authorName = authorName;
+}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authorid")

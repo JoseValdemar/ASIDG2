@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface OrderDetailsService {
     OrderDetails createOrder(OrderDetailsDTO dto);
     Optional<OrderDetails> getOrderDetailsById(Long id);
+    void cancelLatestOrder();
+
 }
