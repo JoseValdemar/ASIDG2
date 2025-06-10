@@ -18,6 +18,7 @@ public class OrderSagaOrchestrator {
 
     public void executeSaga(OrderDTO orderDTO) {
         this.currentOrder = orderDTO;
+        //SerializarDTO para mandar na message KAFKA
         try {
             etapaAtual = 1;
             kafkaProducerService.sendEvent("saga-order", "CREATE_ORDER");
@@ -73,7 +74,6 @@ public class OrderSagaOrchestrator {
 
             case 3:
                 // Falha ao criar envio -> cancelar envio + repor stock + cancelar encomenda
-                kafkaProducerService.sendEvent("saga-shipping", "CANCEL_SHIPPING");
                 kafkaProducerService.sendEvent("saga-book", "RESTORE_STOCK");
                 kafkaProducerService.sendEvent("saga-order", "CANCEL_ORDER");
                 break;
@@ -91,14 +91,5 @@ public class OrderSagaOrchestrator {
         etapaAtual = 0;
     }
 
-    // Utilizado para dados mínimos no envio (ex.: shipping)
-    private static class ShippingRequest {
-        private Long orderId;
-        private Long userId;
 
-        public ShippingRequest(OrderDTO dto) {
-            this.orderId = 0L; 
-            this.userId = dto.getUserId();
-        }
-    }
 }

@@ -18,6 +18,9 @@ public class OrderSagaResponseListener {
         System.out.println(" [ORCHESTRATOR] Resposta recebida: " + message);
 
         switch (message) {
+            case "ORDER_CREATED" -> orchestrator.proceedToBook();
+            case "ORDER_FAILED" -> orchestrator.rollback("erro ao criar encomenda");
+            
             case "BOOK_RESERVED" -> orchestrator.proceedToCart();
             case "BOOK_FAILED" -> orchestrator.rollback("Erro ao reservar livro");
 
