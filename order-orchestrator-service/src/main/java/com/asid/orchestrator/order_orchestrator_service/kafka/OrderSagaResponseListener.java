@@ -21,14 +21,14 @@ public class OrderSagaResponseListener {
             case "ORDER_CREATED" -> orchestrator.proceedToBook();
             case "ORDER_FAILED" -> orchestrator.rollback("erro ao criar encomenda");
             
-            case "BOOK_RESERVED" -> orchestrator.proceedToCart();
+            case "BOOK_RESERVED" -> orchestrator.proceedToShipping();
             case "BOOK_FAILED" -> orchestrator.rollback("Erro ao reservar livro");
 
-            case "CART_CALCULATED" -> orchestrator.proceedToShipping();
-            case "CART_FAILED" -> orchestrator.rollback("Erro no carrinho");
-
-            case "SHIPPING_CREATED" -> orchestrator.completeSaga();
+            case "SHIPPING_CREATED" -> orchestrator.proceedToCart();
             case "SHIPPING_FAILED" -> orchestrator.rollback("Erro no envio");
+
+            case "CART_EMPTIES" -> orchestrator.completeSaga();
+            case "CART_FAILED" -> orchestrator.rollback("Erro no carrinho");
 
             default -> System.out.println(" Evento desconhecido: " + message);
         }
